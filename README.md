@@ -1,5 +1,9 @@
 # FL-MLOps: Development of an Open Source-based MLOps Platform for Federated Learning
-서버-클라이언트 아키텍처를 기반으로 연합학습을 위한 MLOps 플랫 폼을 개발하였다. 연합학습을 담당하는 Federated Learning Part와 MLOps를 담당하는 MLOps Part로 구 성된다. FedML 라이브러리와 MLflow를 이용하여 연합학습과 MLOps를 통합하여 플랫폼을 개발하였다.
+서버-클라이언트 아키텍처를 기반으로 연합학습을 위한 MLOps 플랫폼을 개발하였다. 
+
+연합학습을 담당하는 Federated Learning Part와 MLOps를 담당하는 MLOps Part로 구성된다. 
+
+FedML 라이브러리와 MLflow를 이용하여 연합학습과 MLOps를 통합하여 플랫폼을 개발하였다.
 
 <br>
 
