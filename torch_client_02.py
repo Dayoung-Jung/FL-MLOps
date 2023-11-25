@@ -41,50 +41,15 @@ def load_data(args):
     return dataset, class_num
 
 
-# class MNISTModel(torch.nn.Module):
-#     def __init__(self, input_dim: int, hidden_sizes: list[int], output_dim: int):
-#         super(MNISTModel, self).__init__()
-#         self.lin1 = torch.nn.Linear(input_dim, hidden_sizes[0])
-#         self.lin2 = torch.nn.Linear(hidden_sizes[0], hidden_sizes[1])
-#         self.lin3 = torch.nn.Linear(hidden_sizes[1], output_dim)
-#         self.activation = torch.nn.ReLU()
-#         self.output_activation = torch.nn.LogSoftmax(dim=1)
-#
-#     def forward(self, x):
-#         out = self.lin1(x)
-#         out = self.activation(out)
-#         out = self.lin2(out)
-#         out = self.activation(out)
-#         out = self.lin3(out)
-#         out = self.output_activation(out)
-#         return out
-
-class MNISTModel(torch.nn.Module):
-    def __init__(self, input_dim: int, hidden_sizes: list[int], output_dim: int):
-        super(MNISTModel, self).__init__()
-        self.lin1 = torch.nn.Linear(input_dim, hidden_sizes[0])
-        self.lin2 = torch.nn.Linear(hidden_sizes[0], hidden_sizes[1])
-        self.lin3 = torch.nn.Linear(hidden_sizes[1], hidden_sizes[2])
-        self.lin4 = torch.nn.Linear(hidden_sizes[2], hidden_sizes[3])
-        self.lin5 = torch.nn.Linear(hidden_sizes[3], hidden_sizes[4])
-        self.lin6 = torch.nn.Linear(hidden_sizes[4], output_dim)
-        self.activation = torch.nn.ReLU()
-        self.output_activation = torch.nn.LogSoftmax(dim=1)
+class LogisticRegression(torch.nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(LogisticRegression, self).__init__()
+        self.linear = torch.nn.Linear(input_dim, output_dim)
 
     def forward(self, x):
-        out = self.lin1(x)
-        out = self.activation(out)
-        out = self.lin2(out)
-        out = self.activation(out)
-        out = self.lin3(out)
-        out = self.activation(out)
-        out = self.lin4(out)
-        out = self.activation(out)
-        out = self.lin5(out)
-        out = self.activation(out)
-        out = self.lin6(out)
-        out = self.output_activation(out)
-        return out
+        import torch
+        outputs = torch.sigmoid(self.linear(x))
+        return outputs
 
 
 if __name__ == "__main__":
@@ -110,9 +75,8 @@ if __name__ == "__main__":
         device = fedml.device.get_device(args)
         dataset, output_dim = load_data(args)
 
-        model = MNISTModel(28 * 28, [512, 256, 128, 64, 32], output_dim)
+        model = LogisticRegression(28 * 28, output_dim)
 
-        # model = MNISTModel(28 * 28, [1024, 1024], output_dim)
         mlflow.pytorch.log_model(model, "model")
         mlflow.register_model(
             model_uri="runs:/{}/model".format(run.info.run_id),
